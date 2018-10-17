@@ -97,6 +97,39 @@ extension BrowserViewController: WKNavigationDelegate {
         }
         return false
     }
+    
+    fileprivate func isJoinZoomMeetingURL(_ url: URL) -> Bool {
+        if (url.scheme == "http" || url.scheme == "https") && url.host?.contains("zoom.us") == true {
+            do {
+                let pattern = try NSRegularExpression(pattern: "^.*\\.zoom.us/j/[0-9]+$", options: [.caseInsensitive])
+                if pattern.numberOfMatches(in: url.absoluteString, options: [], range: NSRange(location: 0, length: url.absoluteString.count)) > 0 {
+                    return true
+                }
+            } catch {
+                return false
+            }
+        }
+        return false
+    }
+    
+    fileprivate func joinZoomMeetingAppURL(from url: URL) -> URL? {
+        do {
+            let pattern = try NSRegularExpression(pattern: "^.*\\.zoom.us/j/([0-9]+)$", options: [.caseInsensitive])
+            guard let match = pattern.firstMatch(in: url.absoluteString, options: [], range: NSRange(location: 0, length: url.absoluteString.count)) else { return nil }
+            
+            let joinID = (url.absoluteString as NSString).substring(with: match.range(at: 1))
+            var zoomComponents = URLComponents(string: "zoomus://zoom.us/join")
+            zoomComponents?.queryItems = [
+                URLQueryItem(name: "confno", value: joinID)
+            ]
+            if let queryItems = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems {
+                zoomComponents?.queryItems?.append(contentsOf: queryItems)
+            }
+            return zoomComponents?.url
+        } catch {
+            return nil
+        }
+    }
 
     // This is the place where we decide what to do with a new navigation action. There are a number of special schemes
     // and http(s) urls that need to be handled in a different way. All the logic for that is inside this delegate
@@ -174,6 +207,14 @@ extension BrowserViewController: WKNavigationDelegate {
             handleExternalURL(url)
             decisionHandler(.cancel)
             return
+        }
+        
+        if isJoinZoomMeetingURL(url) {
+            if let zoomURL = joinZoomMeetingAppURL(from: url) {
+                UIApplication.shared.open(zoomURL, options: [:])
+                decisionHandler(.cancel)
+                return
+            }
         }
 
         if isStoreURL(url) {
