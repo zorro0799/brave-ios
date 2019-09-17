@@ -66,7 +66,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
         
         updateShortcutItems(application)
         
-        Migration.moveDatabaseToApplicationDirectory()
         // Passcode checking, must happen on immediate launch
         if !DataController.shared.storeExists() {
             // Since passcode is stored in keychain it persists between installations.
