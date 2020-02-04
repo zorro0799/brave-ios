@@ -39,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
     var receivedURLs: [URL]?
     
     var authenticator: AppAuthenticator?
+    var authController: PasscodeViewController?
     
     /// Object used to handle server pings
     let dau = DAU()
