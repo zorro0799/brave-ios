@@ -4,11 +4,20 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
 class PasscodeViewController: UIViewController {
+    
+    private let passcodeView = PasscodeView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .white
         
+        view.addSubview(passcodeView)
+        passcodeView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
     }
 }

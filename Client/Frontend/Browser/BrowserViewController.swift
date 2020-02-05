@@ -745,6 +745,10 @@ class BrowserViewController: UIViewController {
                 self.presentDuckDuckGoCallout()
             }
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.present(PasscodeViewController(), animated: true, completion: nil)
+        }
     }
     
     func presentOnboardingIntro() {
