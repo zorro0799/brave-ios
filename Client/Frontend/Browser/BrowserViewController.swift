@@ -20,6 +20,7 @@ import BraveRewardsUI
 import BraveRewards
 import StoreKit
 import SafariServices
+import Intents
 
 private let log = Logger.browserLogger
 
@@ -579,6 +580,10 @@ class BrowserViewController: UIViewController {
         
         Bookmark.restore_1_12_Bookmarks() {
             log.info("Bookmarks from old database were successfully restored")
+        }
+        
+        INPreferences.requestSiriAuthorization { status in
+            print(status)
         }
     }
     

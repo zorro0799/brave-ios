@@ -14,6 +14,7 @@ import CoreSpotlight
 import UserNotifications
 import BraveShared
 import Data
+import Intents
 
 private let log = Logger.browserLogger
 

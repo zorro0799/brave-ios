@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSSiriUsageDescription</key>
+	<string>I just need it okay..</string>
 	<key>API_KEY</key>
 	<string>$(BRAVE_API_KEY)</string>
 	<key>AdjustAppToken</key>
@@ -69,8 +71,8 @@
 	<string>$(DEVELOPMENT_TEAM)</string>
 	<key>MozWhatsNewTopic</key>
 	<string></string>
-        <key>NFCReaderUsageDescription</key>
-        <string>The application needs access to NFC reading to communicate with your Yubikey.</string>
+	<key>NFCReaderUsageDescription</key>
+	<string>The application needs access to NFC reading to communicate with your Yubikey.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -156,10 +158,10 @@
 	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
-        <key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
-        <array>
-    	    <string>A000000527471117</string>
-            <string>A0000006472F0001</string>
-        </array>
+	<key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
+	<array>
+		<string>A000000527471117</string>
+		<string>A0000006472F0001</string>
+	</array>
 </dict>
 </plist>
