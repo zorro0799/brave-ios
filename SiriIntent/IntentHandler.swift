@@ -7,23 +7,26 @@ import Intents
 class IntentHandler: INExtension {
     
     override func handler(for intent: INIntent) -> Any {
-        guard intent is SearchIntent else {
-            return self
+        if intent is SearchIntent {
+            return SearchIntentHandler()
         }
-        return SearchIntentHandler()
+        return self
     }
     
 }
 
 class SearchIntentHandler: NSObject, SearchIntentHandling {
-    
     func handle(intent: SearchIntent, completion: @escaping (SearchIntentResponse) -> Void) {
-        guard let endpoint = intent.endpoint else {
-            completion(SearchIntentResponse(code: .failure, userActivity: nil))
-            return
-        }
         
-        completion(SearchIntentResponse.success(bookmarks: endpoint))
+        completion(.success(result: "Response"))
     }
     
+    func resolveAnything(for intent: SearchIntent, with completion: @escaping (INStringResolutionResult) -> Void) {
+        
+        guard let terms = intent.anything else {
+            return completion(.confirmationRequired(with: intent.anything))
+        }
+        
+        completion(.success(with: terms))
+    }
 }

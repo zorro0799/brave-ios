@@ -655,6 +655,10 @@
 		5E0FCD212342526700AC831E /* FullscreenHelper.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EB57D0122FDC0CB00A07325 /* FullscreenHelper.js */; };
 		5E0FCD23234253DC00AC831E /* CertificatePinning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0FCD22234253DC00AC831E /* CertificatePinning.swift */; };
 		5E0FCD252342544C00AC831E /* URLSession+Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0FCD242342544C00AC831E /* URLSession+Requests.swift */; };
+		5E1B42A923F2067000CC3711 /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1B42A823F2067000CC3711 /* IntentHandler.swift */; };
+		5E1B42AD23F2067000CC3711 /* SiriIntent.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5E1B42A623F2067000CC3711 /* SiriIntent.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5E1B42B423F2069500CC3711 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 5E1B42B323F2069500CC3711 /* Intents.intentdefinition */; };
+		5E1B42B723F20C0A00CC3711 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 5E1B42B323F2069500CC3711 /* Intents.intentdefinition */; };
 		5E3477E922D7771700B0D5F8 /* ResourceDownloader.js in Resources */ = {isa = PBXBuildFile; fileRef = 5E3477E822D7771700B0D5F8 /* ResourceDownloader.js */; };
 		5E34781022D7A1D200B0D5F8 /* ResourceDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E34780F22D7A1D200B0D5F8 /* ResourceDownloadManager.swift */; };
 		5E46C371234FACC600ACA8C1 /* root.cer in Resources */ = {isa = PBXBuildFile; fileRef = 5E46C36D234FACC600ACA8C1 /* root.cer */; };
@@ -671,15 +675,6 @@
 		5E612A8F234B7FCA007D12B5 /* OnboardingRewardsAgreementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1D8C6A232BF95200BDE662 /* OnboardingRewardsAgreementViewController.swift */; };
 		5E612A90234B7FCD007D12B5 /* OnboardingRewardsAgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E1D8C6C232BF9C200BDE662 /* OnboardingRewardsAgreementView.swift */; };
 		5E6683A923D61CF7005B3A6C /* NTPDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6683A823D61CF7005B3A6C /* NTPDownloader.swift */; };
-		5E6D674423EDDD3D009164DE /* IntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6D674323EDDD3D009164DE /* IntentHandler.swift */; };
-		5E6D674C23EDDD3D009164DE /* IntentsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E6D674B23EDDD3D009164DE /* IntentsUI.framework */; };
-		5E6D674F23EDDD3D009164DE /* IntentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6D674E23EDDD3D009164DE /* IntentViewController.swift */; };
-		5E6D675223EDDD3D009164DE /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E6D675023EDDD3D009164DE /* MainInterface.storyboard */; };
-		5E6D675623EDDD3D009164DE /* BraveSiriIntentsUI.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5E6D674A23EDDD3D009164DE /* BraveSiriIntentsUI.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		5E6D675923EDDD3D009164DE /* BraveSiriIntents.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 5E6D674123EDDD3D009164DE /* BraveSiriIntents.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		5E6D676623EDE3C7009164DE /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 5E6D676523EDE3C7009164DE /* Intents.intentdefinition */; };
-		5E6D676723EDE6D4009164DE /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 5E6D676523EDE3C7009164DE /* Intents.intentdefinition */; };
-		5E6D676823EDF531009164DE /* Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FEEE1F20BF28D900298DA2 /* Then.swift */; };
 		5E77F9A8236B362800E1649C /* DeviceCheck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E856FE7235E083B0094E113 /* DeviceCheck.swift */; };
 		5E77F9AA236B362E00E1649C /* Cryptography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E856FE5235E08110094E113 /* Cryptography.swift */; };
 		5E77F9DD236BB68700E1649C /* AttestationDebugger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E77F9DC236BB68700E1649C /* AttestationDebugger.swift */; };
@@ -1130,19 +1125,12 @@
 			remoteGlobalIDString = 5DE7688320B3456C00FF5533;
 			remoteInfo = BraveShared;
 		};
-		5E6D675423EDDD3D009164DE /* PBXContainerItemProxy */ = {
+		5E1B42AB23F2067000CC3711 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F84B21B61A090F8100AAB793 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 5E6D674923EDDD3D009164DE;
-			remoteInfo = BraveSiriIntentsUI;
-		};
-		5E6D675723EDDD3D009164DE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F84B21B61A090F8100AAB793 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5E6D674023EDDD3D009164DE;
-			remoteInfo = BraveSiriIntents;
+			remoteGlobalIDString = 5E1B42A523F2067000CC3711;
+			remoteInfo = SiriIntent;
 		};
 		7B9BF92E1E435DE400CB24F4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1243,9 +1231,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				5E6D675923EDDD3D009164DE /* BraveSiriIntents.appex in Embed App Extensions */,
-				5E6D675623EDDD3D009164DE /* BraveSiriIntentsUI.appex in Embed App Extensions */,
 				27F4439F2135E11200296C58 /* BraveShareTo.appex in Embed App Extensions */,
+				5E1B42AD23F2067000CC3711 /* SiriIntent.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2129,6 +2116,10 @@
 		5E0FCD22234253DC00AC831E /* CertificatePinning.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificatePinning.swift; sourceTree = "<group>"; };
 		5E0FCD242342544C00AC831E /* URLSession+Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Requests.swift"; sourceTree = "<group>"; };
 		5E11C3FF23314D970003C363 /* onboarding-ads.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "onboarding-ads.json"; sourceTree = "<group>"; };
+		5E1B42A623F2067000CC3711 /* SiriIntent.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SiriIntent.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E1B42A823F2067000CC3711 /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
+		5E1B42AA23F2067000CC3711 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5E1B42B323F2069500CC3711 /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
 		5E1D8C66232BE43100BDE662 /* OnboardingAdsAvailableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingAdsAvailableController.swift; sourceTree = "<group>"; };
 		5E1D8C68232BE47A00BDE662 /* OnboardingAdsAvailableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingAdsAvailableView.swift; sourceTree = "<group>"; };
 		5E1D8C6A232BF95200BDE662 /* OnboardingRewardsAgreementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingRewardsAgreementViewController.swift; sourceTree = "<group>"; };
@@ -2146,15 +2137,7 @@
 		5E4845BF22DE381200372022 /* WindowRenderHelper.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = WindowRenderHelper.js; sourceTree = "<group>"; };
 		5E4845C122DE3DF800372022 /* WindowRenderHelperScript.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowRenderHelperScript.swift; sourceTree = "<group>"; };
 		5E6683A823D61CF7005B3A6C /* NTPDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NTPDownloader.swift; sourceTree = "<group>"; };
-		5E6D674123EDDD3D009164DE /* BraveSiriIntents.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BraveSiriIntents.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		5E6D674323EDDD3D009164DE /* IntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentHandler.swift; sourceTree = "<group>"; };
-		5E6D674523EDDD3D009164DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5E6D674A23EDDD3D009164DE /* BraveSiriIntentsUI.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = BraveSiriIntentsUI.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E6D674B23EDDD3D009164DE /* IntentsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IntentsUI.framework; path = System/Library/Frameworks/IntentsUI.framework; sourceTree = SDKROOT; };
-		5E6D674E23EDDD3D009164DE /* IntentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentViewController.swift; sourceTree = "<group>"; };
-		5E6D675123EDDD3D009164DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
-		5E6D675323EDDD3D009164DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5E6D676523EDE3C7009164DE /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
 		5E77F9DC236BB68700E1649C /* AttestationDebugger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttestationDebugger.swift; sourceTree = "<group>"; };
 		5E856FE5235E08110094E113 /* Cryptography.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Cryptography.swift; sourceTree = "<group>"; tabWidth = 2; };
 		5E856FE7235E083B0094E113 /* DeviceCheck.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = DeviceCheck.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -2606,18 +2589,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5E6D673E23EDDD3D009164DE /* Frameworks */ = {
+		5E1B42A323F2067000CC3711 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5E6D674723EDDD3D009164DE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5E6D674C23EDDD3D009164DE /* IntentsUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4111,24 +4086,14 @@
 			path = BraveSharedTests;
 			sourceTree = "<group>";
 		};
-		5E6D674223EDDD3D009164DE /* BraveSiriIntents */ = {
+		5E1B42A723F2067000CC3711 /* SiriIntent */ = {
 			isa = PBXGroup;
 			children = (
-				5E6D674323EDDD3D009164DE /* IntentHandler.swift */,
-				5E6D674523EDDD3D009164DE /* Info.plist */,
-				5E6D676523EDE3C7009164DE /* Intents.intentdefinition */,
+				5E1B42A823F2067000CC3711 /* IntentHandler.swift */,
+				5E1B42AA23F2067000CC3711 /* Info.plist */,
+				5E1B42B323F2069500CC3711 /* Intents.intentdefinition */,
 			);
-			path = BraveSiriIntents;
-			sourceTree = "<group>";
-		};
-		5E6D674D23EDDD3D009164DE /* BraveSiriIntentsUI */ = {
-			isa = PBXGroup;
-			children = (
-				5E6D674E23EDDD3D009164DE /* IntentViewController.swift */,
-				5E6D675023EDDD3D009164DE /* MainInterface.storyboard */,
-				5E6D675323EDDD3D009164DE /* Info.plist */,
-			);
-			path = BraveSiriIntentsUI;
+			path = SiriIntent;
 			sourceTree = "<group>";
 		};
 		5E856FE3235E08010094E113 /* DeviceCheck */ = {
@@ -4698,8 +4663,7 @@
 				27F443962135E11200296C58 /* BraveShareTo */,
 				271DEC1A234CC75F009DAC37 /* BraveRewardsUI */,
 				271DEC27234CC760009DAC37 /* BraveRewardsUITests */,
-				5E6D674223EDDD3D009164DE /* BraveSiriIntents */,
-				5E6D674D23EDDD3D009164DE /* BraveSiriIntentsUI */,
+				5E1B42A723F2067000CC3711 /* SiriIntent */,
 				7B604FC11C496005006EEEC3 /* Frameworks */,
 				F84B21BF1A090F8100AAB793 /* Products */,
 				D34DC84C1A16C40C00D49B7B /* Providers */,
@@ -4731,8 +4695,7 @@
 				27F443952135E11200296C58 /* BraveShareTo.appex */,
 				271DEC19234CC75F009DAC37 /* BraveRewardsUI.framework */,
 				271DEC21234CC75F009DAC37 /* BraveRewardsUITests.xctest */,
-				5E6D674123EDDD3D009164DE /* BraveSiriIntents.appex */,
-				5E6D674A23EDDD3D009164DE /* BraveSiriIntentsUI.appex */,
+				5E1B42A623F2067000CC3711 /* SiriIntent.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -5253,38 +5216,21 @@
 			productReference = 5DE7688C20B3456E00FF5533 /* BraveSharedTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		5E6D674023EDDD3D009164DE /* BraveSiriIntents */ = {
+		5E1B42A523F2067000CC3711 /* SiriIntent */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5E6D676423EDDD3D009164DE /* Build configuration list for PBXNativeTarget "BraveSiriIntents" */;
+			buildConfigurationList = 5E1B42AE23F2067000CC3711 /* Build configuration list for PBXNativeTarget "SiriIntent" */;
 			buildPhases = (
-				5E6D673D23EDDD3D009164DE /* Sources */,
-				5E6D673E23EDDD3D009164DE /* Frameworks */,
-				5E6D673F23EDDD3D009164DE /* Resources */,
+				5E1B42A223F2067000CC3711 /* Sources */,
+				5E1B42A323F2067000CC3711 /* Frameworks */,
+				5E1B42A423F2067000CC3711 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = BraveSiriIntents;
-			productName = BraveSiriIntents;
-			productReference = 5E6D674123EDDD3D009164DE /* BraveSiriIntents.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
-		5E6D674923EDDD3D009164DE /* BraveSiriIntentsUI */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5E6D676323EDDD3D009164DE /* Build configuration list for PBXNativeTarget "BraveSiriIntentsUI" */;
-			buildPhases = (
-				5E6D674623EDDD3D009164DE /* Sources */,
-				5E6D674723EDDD3D009164DE /* Frameworks */,
-				5E6D674823EDDD3D009164DE /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = BraveSiriIntentsUI;
-			productName = BraveSiriIntentsUI;
-			productReference = 5E6D674A23EDDD3D009164DE /* BraveSiriIntentsUI.appex */;
+			name = SiriIntent;
+			productName = SiriIntent;
+			productReference = 5E1B42A623F2067000CC3711 /* SiriIntent.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		E6F9650B1B2F1CF20034B023 /* SharedTests */ = {
@@ -5330,8 +5276,7 @@
 				5DE7689820B3456E00FF5533 /* PBXTargetDependency */,
 				27F4439E2135E11200296C58 /* PBXTargetDependency */,
 				271DEC2D234CC760009DAC37 /* PBXTargetDependency */,
-				5E6D675523EDDD3D009164DE /* PBXTargetDependency */,
-				5E6D675823EDDD3D009164DE /* PBXTargetDependency */,
+				5E1B42AC23F2067000CC3711 /* PBXTargetDependency */,
 			);
 			name = Client;
 			productName = Client;
@@ -5411,10 +5356,7 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = F84B21BD1A090F8100AAB793;
 					};
-					5E6D674023EDDD3D009164DE = {
-						CreatedOnToolsVersion = 11.3.1;
-					};
-					5E6D674923EDDD3D009164DE = {
+					5E1B42A523F2067000CC3711 = {
 						CreatedOnToolsVersion = 11.3.1;
 					};
 					E6F9650B1B2F1CF20034B023 = {
@@ -5500,8 +5442,7 @@
 				5D1DC51A20AC9AFA00905E5A /* DataTests */,
 				5DE7688B20B3456E00FF5533 /* BraveSharedTests */,
 				271DEC20234CC75F009DAC37 /* BraveRewardsUITests */,
-				5E6D674023EDDD3D009164DE /* BraveSiriIntents */,
-				5E6D674923EDDD3D009164DE /* BraveSiriIntentsUI */,
+				5E1B42A523F2067000CC3711 /* SiriIntent */,
 			);
 		};
 /* End PBXProject section */
@@ -5620,18 +5561,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5E6D673F23EDDD3D009164DE /* Resources */ = {
+		5E1B42A423F2067000CC3711 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5E6D674823EDDD3D009164DE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5E6D675223EDDD3D009164DE /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6185,22 +6118,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5E6D673D23EDDD3D009164DE /* Sources */ = {
+		5E1B42A223F2067000CC3711 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E6D676623EDE3C7009164DE /* Intents.intentdefinition in Sources */,
-				5E6D674423EDDD3D009164DE /* IntentHandler.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5E6D674623EDDD3D009164DE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5E6D676723EDE6D4009164DE /* Intents.intentdefinition in Sources */,
-				5E6D676823EDF531009164DE /* Then.swift in Sources */,
-				5E6D674F23EDDD3D009164DE /* IntentViewController.swift in Sources */,
+				5E1B42B423F2069500CC3711 /* Intents.intentdefinition in Sources */,
+				5E1B42A923F2067000CC3711 /* IntentHandler.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6476,6 +6399,7 @@
 				4422D4D821BFFB7600BF1855 /* block.cc in Sources */,
 				E65075541E37F6FC006961AC /* DynamicFontHelper.swift in Sources */,
 				4422D55C21BFFB7F00BF1855 /* perl_groups.cc in Sources */,
+				5E1B42B723F20C0A00CC3711 /* Intents.intentdefinition in Sources */,
 				C4E3984C1D21F2FD004E89BA /* TabTrayButtonExtensions.swift in Sources */,
 				5D24AF8221BA459000F9506A /* BlocklistName.swift in Sources */,
 				D3FEC38D1AC4B42F00494F45 /* AutocompleteTextField.swift in Sources */,
@@ -6721,15 +6645,10 @@
 			target = 5DE7688320B3456C00FF5533 /* BraveShared */;
 			targetProxy = 5DE7689720B3456E00FF5533 /* PBXContainerItemProxy */;
 		};
-		5E6D675523EDDD3D009164DE /* PBXTargetDependency */ = {
+		5E1B42AC23F2067000CC3711 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5E6D674923EDDD3D009164DE /* BraveSiriIntentsUI */;
-			targetProxy = 5E6D675423EDDD3D009164DE /* PBXContainerItemProxy */;
-		};
-		5E6D675823EDDD3D009164DE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5E6D674023EDDD3D009164DE /* BraveSiriIntents */;
-			targetProxy = 5E6D675723EDDD3D009164DE /* PBXContainerItemProxy */;
+			target = 5E1B42A523F2067000CC3711 /* SiriIntent */;
+			targetProxy = 5E1B42AB23F2067000CC3711 /* PBXContainerItemProxy */;
 		};
 		7B9BF92F1E435DE400CB24F4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -7069,14 +6988,6 @@
 				598CC065232682050057D3A7 /* zh-TW */,
 			);
 			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-		5E6D675023EDDD3D009164DE /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5E6D675123EDDD3D009164DE /* Base */,
-			);
-			name = MainInterface.storyboard;
 			sourceTree = "<group>";
 		};
 		7B2142FC1E5E055000CDD3FC /* InfoPlist.strings */ = {
@@ -7786,7 +7697,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = "$(inherited).$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = brave.brandonanthony.local.id2048.BraveShareTo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -9202,7 +9113,7 @@
 			};
 			name = FirefoxBeta;
 		};
-		5E6D675A23EDDD3D009164DE /* Fennec */ = {
+		5E1B42AF23F2067000CC3711 /* Fennec */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -9253,8 +9164,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = BraveSiriIntents/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				INFOPLIST_FILE = SiriIntent/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -9263,7 +9174,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = brave.brandonanthony.local.id.BraveSiriIntents;
+				PRODUCT_BUNDLE_IDENTIFIER = brave.brandonanthony.local.id2048.SiriIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -9274,7 +9185,7 @@
 			};
 			name = Fennec;
 		};
-		5E6D675B23EDDD3D009164DE /* Fennec_Enterprise */ = {
+		5E1B42B023F2067000CC3711 /* Fennec_Enterprise */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -9319,8 +9230,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = BraveSiriIntents/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				INFOPLIST_FILE = SiriIntent/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -9328,7 +9239,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = brave.brandonanthony.local.id.BraveSiriIntents;
+				PRODUCT_BUNDLE_IDENTIFIER = brave.brandonanthony.local.id2048.SiriIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -9340,7 +9251,7 @@
 			};
 			name = Fennec_Enterprise;
 		};
-		5E6D675C23EDDD3D009164DE /* Firefox */ = {
+		5E1B42B123F2067000CC3711 /* Firefox */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -9385,8 +9296,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = BraveSiriIntents/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				INFOPLIST_FILE = SiriIntent/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -9394,7 +9305,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = brave.brandonanthony.local.id.BraveSiriIntents;
+				PRODUCT_BUNDLE_IDENTIFIER = brave.brandonanthony.local.id2048.SiriIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -9406,7 +9317,7 @@
 			};
 			name = Firefox;
 		};
-		5E6D675D23EDDD3D009164DE /* FirefoxBeta */ = {
+		5E1B42B223F2067000CC3711 /* FirefoxBeta */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -9451,8 +9362,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = BraveSiriIntents/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				INFOPLIST_FILE = SiriIntent/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -9460,277 +9371,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = brave.brandonanthony.local.id.BraveSiriIntents;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = FirefoxBeta;
-		};
-		5E6D675E23EDDD3D009164DE /* Fennec */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = BraveSiriIntentsUI/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = brave.brandonanthony.local.id.BraveSiriIntentsUI;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Fennec;
-		};
-		5E6D675F23EDDD3D009164DE /* Fennec_Enterprise */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = BraveSiriIntentsUI/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = brave.brandonanthony.local.id.BraveSiriIntentsUI;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Fennec_Enterprise;
-		};
-		5E6D676023EDDD3D009164DE /* Firefox */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = BraveSiriIntentsUI/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = brave.brandonanthony.local.id.BraveSiriIntentsUI;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Firefox;
-		};
-		5E6D676123EDDD3D009164DE /* FirefoxBeta */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = BraveSiriIntentsUI/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = brave.brandonanthony.local.id.BraveSiriIntentsUI;
+				PRODUCT_BUNDLE_IDENTIFIER = brave.brandonanthony.local.id2048.SiriIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -10638,6 +10279,7 @@
 					"-framework",
 					CoreMedia,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = brave.brandonanthony.local.id2048;
 				PRODUCT_MODULE_NAME = Client;
 				PRODUCT_NAME = Client;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Client/Application/Client-Bridging-Header.h";
@@ -10780,24 +10422,13 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Fennec;
 		};
-		5E6D676323EDDD3D009164DE /* Build configuration list for PBXNativeTarget "BraveSiriIntentsUI" */ = {
+		5E1B42AE23F2067000CC3711 /* Build configuration list for PBXNativeTarget "SiriIntent" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5E6D675E23EDDD3D009164DE /* Fennec */,
-				5E6D675F23EDDD3D009164DE /* Fennec_Enterprise */,
-				5E6D676023EDDD3D009164DE /* Firefox */,
-				5E6D676123EDDD3D009164DE /* FirefoxBeta */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Fennec;
-		};
-		5E6D676423EDDD3D009164DE /* Build configuration list for PBXNativeTarget "BraveSiriIntents" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5E6D675A23EDDD3D009164DE /* Fennec */,
-				5E6D675B23EDDD3D009164DE /* Fennec_Enterprise */,
-				5E6D675C23EDDD3D009164DE /* Firefox */,
-				5E6D675D23EDDD3D009164DE /* FirefoxBeta */,
+				5E1B42AF23F2067000CC3711 /* Fennec */,
+				5E1B42B023F2067000CC3711 /* Fennec_Enterprise */,
+				5E1B42B123F2067000CC3711 /* Firefox */,
+				5E1B42B223F2067000CC3711 /* FirefoxBeta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Fennec;

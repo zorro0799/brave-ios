@@ -7,7 +7,7 @@
 	<key>INIntentDefinitionModelVersion</key>
 	<string>1.1</string>
 	<key>INIntentDefinitionNamespace</key>
-	<string>LLelJR</string>
+	<string>pjbXyW</string>
 	<key>INIntentDefinitionSystemVersion</key>
 	<string>19C57</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
@@ -22,15 +22,19 @@
 			<key>INIntentConfigurable</key>
 			<true/>
 			<key>INIntentDescriptionID</key>
-			<string>9zgWpb</string>
+			<string>q5A6RT</string>
 			<key>INIntentLastParameterTag</key>
-			<integer>5</integer>
+			<integer>1</integer>
 			<key>INIntentManagedParameterCombinations</key>
 			<dict>
-				<key></key>
+				<key>anything</key>
 				<dict>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Search ${anything} in Brave</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>jELgfN</string>
 					<key>INIntentParameterCombinationUpdatesLinked</key>
 					<true/>
 				</dict>
@@ -39,23 +43,23 @@
 			<string>Search</string>
 			<key>INIntentParameterCombinations</key>
 			<dict>
-				<key>endpoint</key>
+				<key>anything</key>
 				<dict>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
-					<string>View ${endpoint} in Brave</string>
+					<string>Search ${anything} in Brave</string>
 					<key>INIntentParameterCombinationTitleID</key>
-					<string>OXc7cJ</string>
+					<string>85sUKm</string>
 				</dict>
 			</dict>
 			<key>INIntentParameters</key>
 			<array>
 				<dict>
 					<key>INIntentParameterDisplayName</key>
-					<string>endpoint</string>
+					<string>Anything</string>
 					<key>INIntentParameterDisplayNameID</key>
-					<string>IPcBUW</string>
+					<string>Hbj61Q</string>
 					<key>INIntentParameterDisplayPriority</key>
 					<integer>1</integer>
 					<key>INIntentParameterMetadata</key>
@@ -64,9 +68,24 @@
 						<string>Sentences</string>
 					</dict>
 					<key>INIntentParameterName</key>
-					<string>endpoint</string>
+					<string>anything</string>
+					<key>INIntentParameterPromptDialogs</key>
+					<array>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>Search ${anything} in Brave</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>l6FQ9f</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Primary</string>
+						</dict>
+					</array>
+					<key>INIntentParameterSupportsResolution</key>
+					<true/>
 					<key>INIntentParameterTag</key>
-					<integer>5</integer>
+					<integer>1</integer>
 					<key>INIntentParameterType</key>
 					<string>String</string>
 				</dict>
@@ -77,38 +96,48 @@
 				<array>
 					<dict>
 						<key>INIntentResponseCodeConciseFormatString</key>
-						<string>Here is a list of ${bookmarks}</string>
+						<string>Here's what we found for ${result}</string>
 						<key>INIntentResponseCodeConciseFormatStringID</key>
-						<string>LWeku6</string>
+						<string>87zl95</string>
 						<key>INIntentResponseCodeFormatString</key>
-						<string>Here is a list of ${bookmarks}</string>
+						<string>Here's what we found for ${result}</string>
 						<key>INIntentResponseCodeFormatStringID</key>
-						<string>k3YUlm</string>
+						<string>N5W80w</string>
 						<key>INIntentResponseCodeName</key>
 						<string>success</string>
 						<key>INIntentResponseCodeSuccess</key>
 						<true/>
 					</dict>
 					<dict>
+						<key>INIntentResponseCodeConciseFormatString</key>
+						<string>Oops Something went wrong!</string>
+						<key>INIntentResponseCodeConciseFormatStringID</key>
+						<string>X8AHYQ</string>
+						<key>INIntentResponseCodeFormatString</key>
+						<string>Oops Something went wrong!</string>
+						<key>INIntentResponseCodeFormatStringID</key>
+						<string>70jBZq</string>
 						<key>INIntentResponseCodeName</key>
 						<string>failure</string>
 					</dict>
 				</array>
 				<key>INIntentResponseLastParameterTag</key>
-				<integer>3</integer>
+				<integer>1</integer>
+				<key>INIntentResponseOutput</key>
+				<string>result</string>
 				<key>INIntentResponseParameters</key>
 				<array>
 					<dict>
 						<key>INIntentResponseParameterDisplayName</key>
-						<string>Bookmarks</string>
+						<string>Result</string>
 						<key>INIntentResponseParameterDisplayNameID</key>
-						<string>Vb0nku</string>
+						<string>lQ1W1T</string>
 						<key>INIntentResponseParameterDisplayPriority</key>
 						<integer>1</integer>
 						<key>INIntentResponseParameterName</key>
-						<string>bookmarks</string>
+						<string>result</string>
 						<key>INIntentResponseParameterTag</key>
-						<integer>3</integer>
+						<integer>1</integer>
 						<key>INIntentResponseParameterType</key>
 						<string>String</string>
 					</dict>
@@ -117,7 +146,7 @@
 			<key>INIntentTitle</key>
 			<string>Search</string>
 			<key>INIntentTitleID</key>
-			<string>vdsIIE</string>
+			<string>92yoEt</string>
 			<key>INIntentType</key>
 			<string>Custom</string>
 			<key>INIntentVerb</key>
