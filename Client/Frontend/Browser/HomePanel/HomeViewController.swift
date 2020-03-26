@@ -20,7 +20,11 @@ protocol FavoritesDelegate: AnyObject {
     func openBrandedImageCallout(state: BrandedImageCalloutState?)
 }
 
-class FavoritesViewController: UIViewController, Themeable {
+class HomeRestoreState: NSObject {
+    var feedScrollPosition: CGFloat = 0
+}
+
+class HomeViewController: UIViewController, Themeable {
     private struct UI {
         static let statsHeight: CGFloat = 110.0
         static let statsBottomMargin: CGFloat = 5
@@ -31,7 +35,8 @@ class FavoritesViewController: UIViewController, Themeable {
     weak var delegate: FavoritesDelegate?
     
     // MARK: - Favorites collection view properties
-    private (set) internal lazy var collection: UICollectionView = {
+    
+    private(set) lazy var favoritesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 6
@@ -50,8 +55,11 @@ class FavoritesViewController: UIViewController, Themeable {
         }
         return view
     }()
+    
     private let dataSource: FavoritesDataSource
     private let backgroundDataSource: NTPBackgroundDataSource?
+
+    private(set) var feedView = FeedView(frame: .zero, style: .plain)
 
     private let braveShieldStatsView = BraveShieldStatsView(frame: CGRect.zero).then {
         $0.autoresizingMask = [.flexibleWidth]
@@ -59,6 +67,7 @@ class FavoritesViewController: UIViewController, Themeable {
     
     private lazy var favoritesOverflowButton = RoundInterfaceView().then {
         let blur = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        blur.contentView.backgroundColor = UIColor.black.withAlphaComponent(0.35)
         let button = UIButton(type: .system).then {
             $0.setTitle(Strings.newTabPageShowMoreFavorites, for: .normal)
             $0.appearanceTextColor = .white
@@ -84,7 +93,7 @@ class FavoritesViewController: UIViewController, Themeable {
     
     private lazy var imageCreditButton = UIView().then {
         let blur = UIVisualEffectView(effect: UIBlurEffect(style: .light))
-        blur.contentView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
+        blur.contentView.backgroundColor = UIColor.black.withAlphaComponent(0.35)
         $0.clipsToBounds = true
         $0.layer.cornerRadius = 4
         
@@ -105,7 +114,11 @@ class FavoritesViewController: UIViewController, Themeable {
         $0.addTarget(self, action: #selector(showSponsoredSite), for: .touchUpInside)
     }
     
+    private var todayCardView = FeedCardView()
+    
     private let ddgLogo = UIImageView(image: #imageLiteral(resourceName: "duckduckgo"))
+    
+    private let braveTodayHeader = BraveTodayHeader(frame: .zero)
     
     private let ddgLabel = UILabel().then {
         $0.numberOfLines = 0
@@ -145,6 +158,7 @@ class FavoritesViewController: UIViewController, Themeable {
             
             // Image Sponsor
             imageSponsorButton.setImage(background?.sponsor?.logo.image, for: .normal)
+            imageSponsorButton.imageView?.contentMode = .scaleAspectFit
             imageSponsorButton.isHidden = noSponsor
             
             // Image Credit
@@ -159,8 +173,19 @@ class FavoritesViewController: UIViewController, Themeable {
     
     private let profile: Profile
     
+    // Kind of hacky but allows you to restore home variables
+    // Since home instance is destroyed, we restore based on tab.
+    // States map is saved in BVC, based on [parentTabId: restoreState] == state
+    var restoreState: HomeRestoreState?
+    
     /// Whether the view was called from tapping on address bar or not.
     private let fromOverlay: Bool
+    
+    private var isLandscape: Bool {
+        get {
+            return view.frame.width > view.frame.height
+        }
+    }
     
     /// Different types of notifications can be presented to users.
     enum NTPNotificationType {
@@ -192,7 +217,7 @@ class FavoritesViewController: UIViewController, Themeable {
     
     @objc func existingUserTopSitesConversion() {
         dataSource.refetch()
-        collection.reloadData()
+        favoritesCollectionView.reloadData()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -220,17 +245,16 @@ class FavoritesViewController: UIViewController, Themeable {
         view.layer.addSublayer(gradientOverlay())
         
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongGesture(gesture:)))
-        collection.addGestureRecognizer(longPressGesture)
+        favoritesCollectionView.addGestureRecognizer(longPressGesture)
         
-        view.addSubview(collection)
-        collection.dataSource = dataSource
-        dataSource.collectionView = collection
+        favoritesCollectionView.dataSource = dataSource
+        dataSource.collectionView = favoritesCollectionView
         
         dataSource.favoriteUpdatedHandler = { [weak self] in
             self?.favoritesOverflowButton.isHidden = self?.dataSource.hasOverflow == false
         }
         
-        collection.bounces = false
+        favoritesCollectionView.bounces = false
         
         // Could setup as section header but would need to use flow layout,
         // Auto-layout subview within collection doesn't work properly,
@@ -239,18 +263,34 @@ class FavoritesViewController: UIViewController, Themeable {
         statsViewFrame.origin.x = 20
         // Offset the stats view from the inset set above
         statsViewFrame.origin.y = -(UI.statsHeight + UI.statsBottomMargin)
-        statsViewFrame.size.width = collection.frame.width - statsViewFrame.minX * 2
+        statsViewFrame.size.width = favoritesCollectionView.frame.width - statsViewFrame.minX * 2
         statsViewFrame.size.height = UI.statsHeight
         braveShieldStatsView.frame = statsViewFrame
         
-        collection.addSubview(braveShieldStatsView)
-        collection.addSubview(favoritesOverflowButton)
-        collection.addSubview(ddgButton)
-        view.addSubview(imageCreditButton)
-        view.addSubview(imageSponsorButton)
+        favoritesCollectionView.addSubview(braveShieldStatsView)
+        favoritesCollectionView.addSubview(favoritesOverflowButton)
+        favoritesCollectionView.addSubview(ddgButton)
         
         ddgButton.addSubview(ddgLogo)
         ddgButton.addSubview(ddgLabel)
+        
+        // TODO: only show if Brave Today hasn't been loaded / enabled.
+        feedView.addSubview(favoritesCollectionView)
+        feedView.addSubview(todayCardView)
+        
+        view.addSubview(feedView)
+        
+        view.addSubview(imageCreditButton)
+        view.addSubview(imageSponsorButton)
+        
+        feedView.delegate = FeedManager.shared
+        feedView.dataSource = FeedManager.shared
+        
+        FeedManager.shared.delegate = self
+        
+        view.addSubview(braveTodayHeader)
+        braveTodayHeader.alpha = 0
+        braveTodayHeader.delegate = self
         
         makeConstraints()
         
@@ -258,10 +298,18 @@ class FavoritesViewController: UIViewController, Themeable {
         Preferences.NewTabPage.backgroundSponsoredImages.observe(from: self)
         
         // Doens't this get called twice?
-        collectionContentSizeObservation = collection.observe(\.contentSize, options: [.new, .initial]) { [weak self] _, _ in
+        collectionContentSizeObservation = favoritesCollectionView.observe(\.contentSize, options: [.new, .initial]) { [weak self] _, _ in
             self?.updateDuckDuckGoButtonLayout()
         }
         updateDuckDuckGoVisibility()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Need to reload data after modals are closed for potential orientation change
+        // e.g. if in landscape, open portrait modal, close, the layout attempt to access an invalid indexpath
+        favoritesCollectionView.reloadData()
+        feedView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -272,10 +320,27 @@ class FavoritesViewController: UIViewController, Themeable {
         }
         
         showNTPNotification(for: notificationType)
+        
+        FeedManager.shared.isEnabled = Preferences.General.isBraveTodayEnabled.value
+        
+        if FeedManager.shared.isEnabled && FeedManager.shared.feedCount() == 0 {
+            FeedManager.shared.loadFeed() { [weak self] in
+                DispatchQueue.main.async {
+                    if FeedManager.shared.feedCount() > 0 {
+                        self?.todayCardView.isHidden = true
+                    }
+                    
+                    self?.feedView.reloadData()
+                    
+                    // Adjust insets to allow for table scroll
+                    self?.updateConstraints()
+                }
+            }
+        }
     }
     
     /// Returns nil if not applicable or no notification should be shown.
-    private var ntpNotificationToShow: FavoritesViewController.NTPNotificationType? {
+    private var ntpNotificationToShow: HomeViewController.NTPNotificationType? {
         if fromOverlay || PrivateBrowsingManager.shared.isPrivateBrowsing || ntpNotificationShowing {
             return nil
         }
@@ -351,27 +416,19 @@ class FavoritesViewController: UIViewController, Themeable {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // Need to reload data after modals are closed for potential orientation change
-        // e.g. if in landscape, open portrait modal, close, the layout attempt to access an invalid indexpath
-        collection.reloadData()
-    }
-    
     private var collectionContentSizeObservation: NSKeyValueObservation?
     
     override func viewWillLayoutSubviews() {
         updateConstraints()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        // This makes collection view layout to recalculate its cell size.
-        collection.collectionViewLayout.invalidateLayout()
-        favoritesOverflowButton.isHidden = !dataSource.hasOverflow
-        collection.reloadSections(IndexSet(arrayLiteral: 0))
-        
+//        // This makes collection view layout to recalculate its cell size.
+//        favoritesCollectionView.collectionViewLayout.invalidateLayout()
+//        favoritesOverflowButton.isHidden = !dataSource.hasOverflow
+//        favoritesCollectionView.reloadSections(IndexSet(arrayLiteral: 0))
+
         if let backgroundImageView = backgroundViewInfo?.imageView, let image = backgroundImageView.image {
             // Need to calculate the sizing difference between `image` and `imageView` to determine the pixel difference ratio
             let sizeRatio = backgroundImageView.frame.size.width / image.size.width
@@ -380,29 +437,158 @@ class FavoritesViewController: UIViewController, Themeable {
             let x = focal?.x ?? image.size.width / 2
             let y = focal?.y ?? image.size.height / 2
             let portrait = view.frame.height > view.frame.width
-            
+
             // Center point of image is not center point of view.
             // Take `0` for example, if specying `0`, setting centerX to 0, it is not attempting to place the left
             //  side of the image to the middle (e.g. left justifying), it is instead trying to move the image view's
             //  center to `0`, shifting the image _to_ the left, and making more of the image's right side visible.
             // Therefore specifying `0` should take the imageView's left and pinning it to view's center.
-            
+
             // So basically the movement needs to be "inverted" (hence negation)
             // In landscape, left / right are pegged to superview
             let imageViewOffset = portrait ? sizeRatio * -x : 0
             backgroundViewInfo?.portraitCenterConstraint.update(offset: imageViewOffset)
-            
+
             // If potrait, top / bottom are just pegged to superview
             let inset = portrait ? 0 : sizeRatio * -y
             backgroundViewInfo?.landscapeCenterConstraint.update(offset: inset)
         }
     }
     
+    fileprivate func updateFeedViewInsets() {
+        if !FeedManager.shared.isEnabled {
+            feedView.contentSize = CGSize(width: view.frame.width, height: 0)
+            feedView.contentInset = UIEdgeInsets(top: view.frame.height - 40, left: 0, bottom: 0, right: 0)
+        } else {
+            if FeedManager.shared.feedCount() > 0 {
+                todayCardView.isHidden = true
+                
+                if feedView.contentSize.height < view.frame.height - FeedCardType.adSmall.rawValue {
+                    feedView.contentSize = CGSize(width: view.frame.width, height: view.frame.height - FeedCardType.adSmall.rawValue)
+                }
+            }
+            
+            if let state = restoreState {
+                feedView.contentInset = UIEdgeInsets(top: self.view.frame.height - 40, left: 0, bottom: 0, right: 0)
+                feedView.setContentOffset(CGPoint(x: 0, y: state.feedScrollPosition), animated: false)
+                updateScrollStyling(state.feedScrollPosition)
+            } else {
+                // Peeking loaded content.
+                feedView.contentInset = UIEdgeInsets(top: view.frame.height - 40, left: 0, bottom: 0, right: 0)
+                feedView.setContentOffset(CGPoint(x: 0, y: -(feedView.frame.height - 30)), animated: false)
+                updateScrollStyling(-(feedView.frame.height - 30))
+            }
+        }
+    }
+    
+    // MARK: - Constraints setup
+    fileprivate func makeConstraints() {
+        braveTodayHeader.snp.makeConstraints {
+            $0.top.left.right.equalToSuperview()
+            $0.height.equalTo(47)
+        }
+        
+        ddgLogo.snp.makeConstraints { make in
+            make.top.left.greaterThanOrEqualTo(UI.ddgButtonPadding)
+            make.centerY.equalToSuperview()
+            make.size.equalTo(38)
+        }
+        
+        ddgLabel.snp.makeConstraints { make in
+            make.right.equalToSuperview().offset(-UI.ddgButtonPadding)
+            make.left.equalTo(self.ddgLogo.snp.right).offset(5)
+            make.width.equalTo(180)
+            make.centerY.equalTo(self.ddgLogo)
+        }
+        
+        favoritesOverflowButton.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalTo(ddgButton.snp.top).offset(-90)
+            $0.height.equalTo(24)
+            $0.width.equalTo(84)
+        }
+        
+        imageCreditButton.snp.makeConstraints {
+            let borderPadding = 20
+            $0.bottom.equalTo(self.view).inset(-borderPadding + 60)
+            $0.left.equalToSuperview().offset(borderPadding)
+            $0.height.equalTo(24)
+            // Width and therefore, right constraint is determined by the actual button inside of this view
+            //  button is resized from text content, and this superview is pinned to that width.
+        }
+        
+        todayCardView.snp.makeConstraints {
+            $0.centerX.equalTo(self.feedView)
+            $0.width.equalTo(min(UIScreen.main.bounds.width - 40, 420))
+            $0.height.equalTo(200)
+            $0.bottom.equalTo(self.feedView).offset(170)
+        }
+        
+        feedView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        updateConstraints()
+        
+        favoritesCollectionView.collectionViewLayout.invalidateLayout()
+        feedView.reloadData()
+    }
+    
+    private func updateConstraints() {
+        let isIphone = UIDevice.isPhone
+        
+        var right: ConstraintRelatableTarget = self.view.safeAreaLayoutGuide
+        var left: ConstraintRelatableTarget = self.view.safeAreaLayoutGuide
+        if isLandscape {
+            if isIphone {
+                left = self.view.snp.centerX
+            } else {
+                right = self.view.snp.centerX
+            }
+        }
+        
+        favoritesCollectionView.snp.remakeConstraints { make in
+            make.right.equalTo(right)
+            make.left.equalTo(left)
+            make.top.bottom.equalTo(self.view)
+        }
+        
+        imageSponsorButton.snp.remakeConstraints {
+            $0.size.equalTo(170)
+            
+            let borderPadding = 20
+            $0.bottom.equalTo(self.view).inset(-borderPadding + 60)
+            
+            if isLandscape && isIphone {
+                $0.left.equalTo(view.safeArea.left).offset(20)
+            } else {
+                $0.centerX.equalToSuperview()
+            }
+        }
+        
+        todayCardView.snp.remakeConstraints {
+            $0.centerX.equalTo(self.feedView)
+            $0.width.equalTo(min(UIScreen.main.bounds.width - 40, 460))
+            $0.height.equalTo(200)
+            $0.bottom.equalTo(self.feedView).offset(210)
+        }
+        
+        feedView.snp.remakeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
+        updateFeedViewInsets()
+    }
+    
     private func updateDuckDuckGoButtonLayout() {
         let size = ddgButton.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize)
         ddgButton.frame = CGRect(
-            x: ceil((collection.bounds.width - size.width) / 2.0),
-            y: collection.contentSize.height + UI.searchEngineCalloutPadding,
+            x: ceil((favoritesCollectionView.bounds.width - size.width) / 2.0),
+            y: favoritesCollectionView.contentSize.height + UI.searchEngineCalloutPadding,
             width: size.width,
             height: size.height
         )
@@ -412,18 +598,18 @@ class FavoritesViewController: UIViewController, Themeable {
     @objc func handleLongGesture(gesture: UILongPressGestureRecognizer) {
         switch gesture.state {
         case .began:
-            guard let selectedIndexPath = collection.indexPathForItem(at: gesture.location(in: collection)) else {
+            guard let selectedIndexPath = favoritesCollectionView.indexPathForItem(at: gesture.location(in: favoritesCollectionView)) else {
                 break
             }
             
             dataSource.isEditing = true
-            collection.beginInteractiveMovementForItem(at: selectedIndexPath)
+            favoritesCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
         case .changed:
-            collection.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+            favoritesCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
         case .ended:
-            collection.endInteractiveMovement()
+            favoritesCollectionView.endInteractiveMovement()
         default:
-            collection.cancelInteractiveMovement()
+            favoritesCollectionView.cancelInteractiveMovement()
         }
     }
     
@@ -457,38 +643,6 @@ class FavoritesViewController: UIViewController, Themeable {
         delegate?.didSelect(input: url)
     }
     
-    // MARK: - Constraints setup
-    fileprivate func makeConstraints() {
-        ddgLogo.snp.makeConstraints { make in
-            make.top.left.greaterThanOrEqualTo(UI.ddgButtonPadding)
-            make.centerY.equalToSuperview()
-            make.size.equalTo(38)
-        }
-        
-        ddgLabel.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-UI.ddgButtonPadding)
-            make.left.equalTo(self.ddgLogo.snp.right).offset(5)
-            make.width.equalTo(180)
-            make.centerY.equalTo(self.ddgLogo)
-        }
-        
-        favoritesOverflowButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.bottom.equalTo(ddgButton.snp.top).offset(-90)
-            $0.height.equalTo(24)
-            $0.width.equalTo(84)
-        }
-        
-        imageCreditButton.snp.makeConstraints {
-            let borderPadding = 20
-            $0.bottom.equalTo(self.view.snp.bottom).inset(borderPadding)
-            $0.left.equalToSuperview().offset(borderPadding)
-            $0.height.equalTo(24)
-            // Width and therefore, right constraint is determined by the actual button inside of this view
-            //  button is resized from text content, and this superview is pinned to that width.
-        }
-    }
-    
     // MARK: - Private browsing mode
     @objc func privateBrowsingModeChanged() {
         updateDuckDuckGoVisibility()
@@ -503,45 +657,6 @@ class FavoritesViewController: UIViewController, Themeable {
         styleChildren(theme: theme)
        
         view.backgroundColor = theme.colors.home
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-
-        updateConstraints()
-        collection.collectionViewLayout.invalidateLayout()
-    }
-    
-    private func updateConstraints() {
-        let isIphone = UIDevice.isPhone
-        let isLandscape = view.frame.width > view.frame.height
-        
-        var right: ConstraintRelatableTarget = self.view.safeAreaLayoutGuide
-        var left: ConstraintRelatableTarget = self.view.safeAreaLayoutGuide
-        if isLandscape {
-            if isIphone {
-                left = self.view.snp.centerX
-            } else {
-                right = self.view.snp.centerX
-            }
-        }
-        
-        collection.snp.remakeConstraints { make in
-            make.right.equalTo(right)
-            make.left.equalTo(left)
-            make.top.bottom.equalTo(self.view)
-        }
-        
-        imageSponsorButton.snp.remakeConstraints {
-            $0.size.equalTo(170)
-            $0.bottom.equalTo(view.safeArea.bottom).inset(10)
-            
-            if isLandscape && isIphone {
-                $0.left.equalTo(view.safeArea.left).offset(20)
-            } else {
-                $0.centerX.equalToSuperview()
-            }
-        }
     }
     
     private func resetBackgroundImage() {
@@ -636,13 +751,50 @@ class FavoritesViewController: UIViewController, Themeable {
     func updateDuckDuckGoVisibility() {
         let isVisible = shouldShowDuckDuckGoCallout()
         let heightOfCallout = ddgButton.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize).height + (UI.searchEngineCalloutPadding * 2.0)
-        collection.contentInset.bottom = isVisible ? heightOfCallout : 0
+        favoritesCollectionView.contentInset.bottom = isVisible ? heightOfCallout : 0
         ddgButton.isHidden = !isVisible
+    }
+    
+    fileprivate func updateScrollStyling(_ scrollOffset: CGFloat) {
+        let scrollOffset = scrollOffset + view.frame.height - 40
+        
+        imageCreditButton.alpha = alphaAt(scrollOffset, distance: 30)
+        imageSponsorButton.alpha = alphaAt(scrollOffset, distance: 50)
+        ddgButton.alpha = alphaAt((scrollOffset - 80), distance: 90)
+        backgroundViewInfo?.imageView.alpha = max(alphaAt(scrollOffset - view.frame.height / 2, distance: view.frame.height), 0.6) // starts fading 1/2 up and limit
+        braveTodayHeader.alpha = min((scrollOffset - (view.frame.height * 0.75)) / 80, 1)
+        
+        if isLandscape {
+            favoritesCollectionView.alpha = alphaAt(scrollOffset, distance: view.frame.height / 4)
+        } else {
+            favoritesCollectionView.alpha = alphaAt(scrollOffset - view.frame.height / 2, distance: 100)
+        }
+    }
+    
+    private func alphaAt(_ value: CGFloat, distance: CGFloat) -> CGFloat {
+        return max(min(((distance - value) / distance * 100) / 100, 1), 0)
+    }
+    
+    func getState() -> HomeRestoreState {
+        let state = HomeRestoreState()
+        debugPrint(feedView.contentOffset.y)
+        state.feedScrollPosition = feedView.contentOffset.y
+        return state
+    }
+    
+    func restoreState(state: HomeRestoreState) {
+        restoreState = state
+    }
+}
+
+extension HomeViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
 
 // MARK: - Delegates
-extension FavoritesViewController: UICollectionViewDelegateFlowLayout {
+extension HomeViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let fav = dataSource.favoriteBookmark(at: indexPath)
         
@@ -652,7 +804,7 @@ extension FavoritesViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = collection.frame.width
+        let width = favoritesCollectionView.frame.width
         let padding: CGFloat = traitCollection.horizontalSizeClass == .compact ? 6 : 20
         
         let cellWidth = floor(width - padding) / CGFloat(dataSource.columnsPerRow)
@@ -669,9 +821,9 @@ extension FavoritesViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension FavoritesViewController: FavoriteCellDelegate {
+extension HomeViewController: FavoriteCellDelegate {
     func editFavorite(_ favoriteCell: FavoriteCell) {
-        guard let indexPath = collection.indexPath(for: favoriteCell),
+        guard let indexPath = favoritesCollectionView.indexPath(for: favoriteCell),
             let fav = dataSource.frc?.fetchedObjects?[indexPath.item] else { return }
         
         let actionSheet = UIAlertController(title: fav.displayTitle, message: nil, preferredStyle: .actionSheet)
@@ -690,7 +842,8 @@ extension FavoritesViewController: FavoriteCellDelegate {
         let editAction = UIAlertAction(title: Strings.editFavorite, style: .default) { _ in
             guard let title = fav.displayTitle, let urlString = fav.url else { return }
             
-            let editPopup = UIAlertController.userTextInputAlert(title: Strings.editBookmark, message: urlString,
+            let editPopup = UIAlertController.userTextInputAlert(title: Strings.editBookmark,
+                                                                 message: urlString,
                                                                  startingText: title, startingText2: fav.url,
                                                                  placeholder2: urlString,
                                                                  keyboardType2: .URL) { callbackTitle, callbackUrl in
@@ -724,8 +877,35 @@ extension FavoritesViewController: FavoriteCellDelegate {
     }
 }
 
-extension FavoritesViewController: PreferencesObserver {
+extension HomeViewController: PreferencesObserver {
     func preferencesDidChange(for key: String) {
         self.resetBackgroundImage()
+    }
+}
+
+extension HomeViewController: FeedManagerDelegate {
+    func shouldReload() {
+        DispatchQueue.main.async {
+            self.feedView.reloadData()
+        }
+    }
+    
+    func didScroll(scrollView: UIScrollView) {
+        if scrollView.isDescendant(of: feedView) {
+            updateScrollStyling(scrollView.contentOffset.y)
+        }
+    }
+}
+
+extension HomeViewController: BraveTodayHeaderDelegate {
+    func didTapSettings() {
+        let popup = BraveTodaySourcesPopupView { completed in
+            FeedManager.shared.getMore { [weak self] in
+               DispatchQueue.main.async {
+                    self?.feedView.reloadData()
+                }
+            }
+        }
+        popup.showWithType(showType: .normal)
     }
 }

@@ -42,7 +42,7 @@ private struct BrowserViewControllerUX {
 }
 
 class BrowserViewController: UIViewController {
-    var favoritesViewController: FavoritesViewController?
+    var homeViewController: HomeViewController?
     var webViewContainer: UIView!
     var topToolbar: TopToolbarView!
     var tabsBar: TabsBarViewController!
@@ -57,6 +57,9 @@ class BrowserViewController: UIViewController {
     fileprivate var searchLoader: SearchLoader?
     fileprivate let alertStackView = UIStackView() // All content that appears above the footer should be added to this view. (Find In Page/SnackBars)
     fileprivate var findInPageBar: FindInPageBar?
+    
+    // Restore State for HomeViewController [Tab.id : State values]
+    fileprivate var homeRestoreStateTabMap: [String: HomeRestoreState] = [:]
     
     // Single data source used for all favorites vcs
     fileprivate let backgroundDataSource = NTPBackgroundDataSource()
@@ -364,7 +367,7 @@ class BrowserViewController: UIViewController {
         }
 
         view.setNeedsUpdateConstraints()
-        if let home = favoritesViewController {
+        if let home = homeViewController {
             home.view.setNeedsUpdateConstraints()
         }
 
@@ -680,7 +683,7 @@ class BrowserViewController: UIViewController {
         
         updateTabCountUsingTabManager(tabManager)
         clipboardBarDisplayHandler?.checkIfShouldDisplayBar()
-        favoritesViewController?.updateDuckDuckGoVisibility()
+        homeViewController?.updateDuckDuckGoVisibility()
         
         if let tabId = tabManager.selectedTab?.rewardsId, rewards.ledger.selectedTabId == 0 {
             rewards.ledger.selectedTabId = tabId
@@ -937,7 +940,7 @@ class BrowserViewController: UIViewController {
         
         // Remake constraints even if we're already showing the home controller.
         // The home controller may change sizes if we tap the URL bar while on about:home.
-        favoritesViewController?.view.snp.remakeConstraints { make in
+        homeViewController?.view.snp.remakeConstraints { make in
             webViewContainerTopOffset = make.top.equalTo(readerModeBar?.snp.bottom ?? self.header.snp.bottom).constraint
             
             make.left.right.equalTo(self.view)
@@ -968,8 +971,8 @@ class BrowserViewController: UIViewController {
     fileprivate func showHomePanelController(inline: Bool) {
         homePanelIsInline = inline
 
-        if favoritesViewController == nil {
-            let homePanelController = FavoritesViewController(profile: profile,
+        if homeViewController == nil {
+            let homePanelController = HomeViewController(profile: profile,
                                                               fromOverlay: !inline,
                                                               rewards: rewards,
                                                               backgroundDataSource: backgroundDataSource)
@@ -977,13 +980,18 @@ class BrowserViewController: UIViewController {
             homePanelController.view.alpha = 0
             homePanelController.applyTheme(Theme.of(tabManager.selectedTab))
 
-            self.favoritesViewController = homePanelController
+            self.homeViewController = homePanelController
 
             addChild(homePanelController)
             view.addSubview(homePanelController.view)
             homePanelController.didMove(toParent: self)
+            
+            // Restores state of homeVC that was connected to current tab.
+            if let tabId = tabManager.selectedTab?.id, let state = homeRestoreStateTabMap[tabId] {
+                self.homeViewController?.restoreState(state: state)
+            }
         }
-        guard let homePanelController = self.favoritesViewController else {
+        guard let homePanelController = self.homeViewController else {
             assertionFailure("homePanelController is still nil after assignment.")
             return
         }
@@ -1002,8 +1010,8 @@ class BrowserViewController: UIViewController {
     }
     
     fileprivate func hideHomePanelController() {
-        if let controller = favoritesViewController {
-            self.favoritesViewController = nil
+        if let controller = homeViewController {
+            self.homeViewController = nil
             UIView.animate(withDuration: 0.2, delay: 0, options: .beginFromCurrentState, animations: { () -> Void in
                 controller.view.alpha = 0
             }, completion: { _ in
@@ -1018,6 +1026,12 @@ class BrowserViewController: UIViewController {
                     self.showReaderModeBar(animated: false)
                 }
             })
+        }
+    }
+    
+    func saveHomeStateInTab(_ tab: Tab) {
+        if let tabId = tab.id, let homeVC = self.homeViewController {
+            homeRestoreStateTabMap[tabId] = homeVC.getState()
         }
     }
 
@@ -1057,7 +1071,7 @@ class BrowserViewController: UIViewController {
             return
         }
 
-        favoritesViewController?.view?.isHidden = true
+        homeViewController?.view?.isHidden = true
 
         searchController!.didMove(toParent: self)
     }
@@ -1109,7 +1123,7 @@ class BrowserViewController: UIViewController {
             searchController.view.removeFromSuperview()
             searchController.removeFromParent()
             self.searchController = nil
-            favoritesViewController?.view?.isHidden = false
+            homeViewController?.view?.isHidden = false
             searchLoader = nil
         }
     }
@@ -1595,7 +1609,7 @@ class BrowserViewController: UIViewController {
             Preferences.Popups.duckDuckGoPrivateSearch.value = true
             self?.profile.searchEngines.setDefaultEngine(OpenSearchEngine.EngineNames.duckDuckGo, forType: .privateMode)
             
-            self?.favoritesViewController?.updateDuckDuckGoVisibility()
+            self?.homeViewController?.updateDuckDuckGoVisibility()
             
             return .flyUp
         }
@@ -1780,7 +1794,7 @@ extension BrowserViewController: TopToolbarDelegate {
     }
 
     func topToolbarDidPressScrollToTop(_ topToolbar: TopToolbarView) {
-        if let selectedTab = tabManager.selectedTab, favoritesViewController == nil {
+        if let selectedTab = tabManager.selectedTab, homeViewController == nil {
             // Only scroll to top if we are not showing the home view controller
             selectedTab.webView?.scrollView.setContentOffset(CGPoint.zero, animated: true)
         }
@@ -2288,6 +2302,11 @@ extension BrowserViewController: TabManagerDelegate {
         } else {
             topToolbar.updateReaderModeState(ReaderModeState.unavailable)
         }
+        
+        // Save Home State for previous tab (since it will be removed)
+        if let previous = previous {
+            saveHomeStateInTab(previous)
+        }
 
         updateInContentHomePanel(selected?.url as URL?)
         
@@ -2307,6 +2326,7 @@ extension BrowserViewController: TabManagerDelegate {
     }
 
     func tabManager(_ tabManager: TabManager, willAddTab tab: Tab) {
+        
     }
 
     func tabManager(_ tabManager: TabManager, didAddTab tab: Tab) {
@@ -2332,6 +2352,10 @@ extension BrowserViewController: TabManagerDelegate {
         updateTabsBarVisibility()
         
         rewards.reportTabClosed(tabId: tab.rewardsId)
+        
+        if let tabId = tab.id {
+            homeRestoreStateTabMap[tabId] = nil
+        }
     }
 
     func tabManagerDidAddTabs(_ tabManager: TabManager) {
@@ -3205,7 +3229,7 @@ extension BrowserViewController: TabTrayDelegate {
 extension BrowserViewController: Themeable {
     
     var themeableChildren: [Themeable?]? {
-        return [topToolbar, toolbar, readerModeBar, tabsBar, favoritesViewController]
+        return [topToolbar, toolbar, readerModeBar, tabsBar, homeViewController]
     }
     
     func applyTheme(_ theme: Theme) {
