@@ -24,7 +24,7 @@ extension BraveLedger {
       $0.percent = 1 //exclude 0% sites.
       $0.orderBy = [sort]
       $0.nonVerified = self.allowUnverifiedPublishers
-      $0.reconcileStamp = self.autoContributeProps.reconcileStamp
+      //$0.reconcileStamp = self.autoContributeProps.reconcileStamp
     }
     return filter
   }
@@ -34,7 +34,7 @@ extension BraveLedger {
       $0.id = ""
       $0.excluded = .filterExcluded
       $0.nonVerified = self.allowUnverifiedPublishers
-      $0.reconcileStamp = self.autoContributeProps.reconcileStamp
+//      $0.reconcileStamp = self.autoContributeProps.reconcileStamp
     }
   }
   
@@ -77,20 +77,22 @@ extension BraveLedger {
   /// Gets the dollar string for some BAT amount using rates from the users wallet with the
   /// currency code appended (i.e. "6.42 USD")
   func dollarStringForBATAmount(_ amount: Double, currencyCode: String = "USD", includeCurrencyCode: Bool = true) -> String? {
-    guard let balance = balance,
-          let conversionRate = balance.rates[currencyCode]?.doubleValue else {
-      return nil
-    }
+//    guard let balance = balance,
+//          let conversionRate = balance.rates[currencyCode]?.doubleValue else {
+//      return nil
+//    }
+    return nil
     
     let currencyFormatter = NumberFormatter()
     currencyFormatter.currencySymbol = ""
     currencyFormatter.numberStyle = .currency
     currencyFormatter.locale = Locale(identifier: "en_US")
-    let valueString = currencyFormatter.string(from: NSNumber(value: amount * conversionRate)) ?? "0.00"
-    if includeCurrencyCode {
-      return "\(valueString) \(currencyCode)"
-    }
-    return "\(valueString)"
+//    let valueString = currencyFormatter.string(from: NSNumber(value: amount * conversionRate)) ?? "0.00"
+//    if includeCurrencyCode {
+//      return "\(valueString) \(currencyCode)"
+//    }
+//    return "\(valueString)"
+    return ""
   }
   
   /// Takes BAT amount as String, and returns a String converted to selected currency.
@@ -149,26 +151,27 @@ extension BraveLedger {
         completion(false)
         return
       }
+      return
       
-      let group = DispatchGroup()
-      var success = true
-      group.enter()
-      self.fetchWalletDetails { details in
-        if details == nil {
-          success = false
-        }
-        group.leave()
-      }
-      group.enter()
-      self.fetchBalance { balance in
-        if balance == nil {
-          success = false
-        }
-        group.leave()
-      }
-      group.notify(queue: .main, execute: {
-        completion(success)
-      })
+//      let group = DispatchGroup()
+//      var success = true
+//      group.enter()
+//      self.fetchWalletDetails { details in
+//        if details == nil {
+//          success = false
+//        }
+//        group.leave()
+//      }
+//      group.enter()
+//      self.fetchBalance { balance in
+//        if balance == nil {
+//          success = false
+//        }
+//        group.leave()
+//      }
+//      group.notify(queue: .main, execute: {
+//        completion(success)
+//      })
     }
   }
   

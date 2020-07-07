@@ -14,6 +14,7 @@ import CoreSpotlight
 import UserNotifications
 import BraveShared
 import Data
+import BraveRewards
 
 private let log = Logger.browserLogger
 
@@ -42,6 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
     
     /// Object used to handle server pings
     let dau = DAU()
+    
+    var meh: BraveCoreShared?
 
     @discardableResult func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         //
@@ -79,6 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             KeychainWrapper.sharedAppContainerKeychain.setAuthenticationInfo(nil)
         }
         
+        meh = BraveCoreShared()
         return startApplication(application, withLaunchOptions: launchOptions)
     }
 

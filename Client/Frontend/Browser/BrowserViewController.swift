@@ -524,9 +524,21 @@ class BrowserViewController: UIViewController {
         // Re-show toolbar which might have been hidden during scrolling (prior to app moving into the background)
         scrollController.showToolbars(animated: false)
     }
+    
+    var api: BookmarksService?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        /*let serviceInfo = BookmarksServiceInfo()
+        serviceInfo.mobileUserAgent = UserAgent.mobile
+        serviceInfo.desktopUserAgent = UserAgent.desktop
+        
+        api = BookmarksService(info: serviceInfo)*/
+        api = BookmarksService()
+//        api?.create()
+        
+        
         NotificationCenter.default.do {
             $0.addObserver(self, selector: #selector(appWillResignActiveNotification),
                            name: UIApplication.willResignActiveNotification, object: nil)

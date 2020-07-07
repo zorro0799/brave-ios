@@ -15,30 +15,30 @@ private let log = Logger.rewardsLogger
 
 struct RewardsHelper {
     static func configureRewardsLogs(showFileName: Bool = true, showLine: Bool = true) {
-        RewardsLogger.configure(logCallback: { logLevel, line, file, data in
-            if data.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { return }
-            
-            var extraInfo = ""
-            
-            if showFileName {
-                // Rewards logger gives us full file path, extracting filename from it.
-                let fileName = (file as NSString).lastPathComponent
-                extraInfo = showLine ? "[\(fileName).\(line)]" : "[\(fileName)]"
-            }
-            
-            let logOutput = extraInfo.isEmpty ? data : "\(extraInfo) \(data)"
-            
-            switch logLevel {
-            // Response and request log levels are ledger-specific.
-            case .logDebug, .logResponse, .logRequest: log.debug(logOutput)
-            case .logInfo: log.info(logOutput)
-            case .logWarning: log.warning(logOutput)
-            case .logError: log.error(logOutput)
-            @unknown default:
-                assertionFailure()
-                log.debug(logOutput)
-            }
-        }, withFlush: nil)
+//        RewardsLogger.configure(logCallback: { logLevel, line, file, data in
+//            if data.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { return }
+//            
+//            var extraInfo = ""
+//            
+//            if showFileName {
+//                // Rewards logger gives us full file path, extracting filename from it.
+//                let fileName = (file as NSString).lastPathComponent
+//                extraInfo = showLine ? "[\(fileName).\(line)]" : "[\(fileName)]"
+//            }
+//            
+//            let logOutput = extraInfo.isEmpty ? data : "\(extraInfo) \(data)"
+//            
+////            switch logLevel {
+////            // Response and request log levels are ledger-specific.
+////            case .logDebug, .logResponse, .logRequest: log.debug(logOutput)
+////            case .logInfo: log.info(logOutput)
+////            case .logWarning: log.warning(logOutput)
+////            case .logError: log.error(logOutput)
+////            @unknown default:
+////                assertionFailure()
+////                log.debug(logOutput)
+////            }
+//        }, withFlush: nil)
     }
 }
 

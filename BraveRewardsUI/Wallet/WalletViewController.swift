@@ -216,12 +216,12 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
         self.showServerErrorNotification()
       }
     }
-    state.ledger.fetchWalletDetails { properties in
-      if properties == nil && self.state.ledger.walletInfo == nil {
-        // No wallet properties to display: Error
-        self.showServerErrorNotification()
-      }
-    }
+//    state.ledger.fetchWalletDetails { properties in
+//      if properties == nil && self.state.ledger.walletInfo == nil {
+//        // No wallet properties to display: Error
+//        self.showServerErrorNotification()
+//      }
+//    }
   }
   
   private lazy var publisherSummaryView = PublisherSummaryView()
@@ -565,12 +565,12 @@ extension WalletViewController {
         return
       }
       if path.status == .satisfied {
-        if self.state.ledger.balance != nil &&
-          self.state.ledger.walletInfo != nil {
-          //hide network not available banner
-          self.walletView.setNotificationView(nil, animated: true)
-          self.loadNextNotification()
-        }
+//        if self.state.ledger.balance != nil &&
+//          self.state.ledger.walletInfo != nil {
+//          //hide network not available banner
+//          self.walletView.setNotificationView(nil, animated: true)
+//          self.loadNextNotification()
+//        }
       } else {
         //Show network not available banner
         self.showServerErrorNotification()
@@ -598,10 +598,11 @@ extension WalletViewController {
   }
   
   private func loadNextNotification() {
-    if state.ledger.balance == nil || state.ledger.walletInfo == nil {
-      // Showing error
-      return
-    }
+//    if state.ledger.balance == nil || state.ledger.walletInfo == nil {
+//      // Showing error
+//      return
+//    }
+    return
     
     if let notification = state.ledger.notifications.first {
       currentNotification = notification

@@ -11,7 +11,6 @@ FOUNDATION_EXPORT double BraveRewardsVersionNumber;
 FOUNDATION_EXPORT const unsigned char BraveRewardsVersionString[];
 
 #import <BraveRewards/BATBraveRewards.h>
-#import <BraveRewards/RewardsLogger.h>
 
 // Ads
 #import <BraveRewards/BATAdNotification.h>
@@ -22,3 +21,7 @@ FOUNDATION_EXPORT const unsigned char BraveRewardsVersionString[];
 #import <BraveRewards/ledger.mojom.objc.h>
 #import <BraveRewards/BATRewardsNotification.h>
 #import <BraveRewards/BATPromotionSolution.h>
+
+// Components
+#import <BraveRewards/Bookmarks.h>
+#import <BraveRewards/BraveCoreShared.h>

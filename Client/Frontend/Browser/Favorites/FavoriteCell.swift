@@ -79,7 +79,7 @@ class FavoriteCell: UICollectionViewCell {
         textLabel.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
         
         if #available(iOS 13.4, *) {
-            addInteraction(UIPointerInteraction(delegate: self))
+            //addInteraction(UIPointerInteraction(delegate: self))
         }
         
         if #available(iOS 13.0, *) {
@@ -123,10 +123,10 @@ class FavoriteCell: UICollectionViewCell {
     }
 }
 
-@available(iOS 13.4, *)
-extension FavoriteCell: UIPointerInteractionDelegate {
-    func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
-        let preview = UITargetedPreview(view: imageView)
-        return UIPointerStyle(effect: .lift(preview))
-    }
-}
+//@available(iOS 13.4, *)
+//extension FavoriteCell: UIPointerInteractionDelegate {
+//    func pointerInteraction(_ interaction: UIPointerInteraction, styleFor region: UIPointerRegion) -> UIPointerStyle? {
+//        let preview = UITargetedPreview(view: imageView)
+//        return UIPointerStyle(effect: .lift(preview))
+//    }
+//}

@@ -207,13 +207,13 @@ class TippingViewController: UIViewController, UIViewControllerTransitioningDele
       }
       
       if self.tippingView.optionSelectionView.isMonthly {
-        let date = Date(timeIntervalSince1970: TimeInterval(self.state.ledger.autoContributeProps.reconcileStamp))
-        let dateString = DateFormatter().then {
-          $0.dateStyle = .short
-          $0.timeStyle = .none
-        }.string(from: date)
-        
-        displayConfirmationView(dateString)
+//        let date = Date(timeIntervalSince1970: TimeInterval(self.state.ledger.autoContributeProps.reconcileStamp))
+//        let dateString = DateFormatter().then {
+//          $0.dateStyle = .short
+//          $0.timeStyle = .none
+//        }.string(from: date)
+//        
+//        displayConfirmationView(dateString)
       } else {
         displayConfirmationView(nil)
       }

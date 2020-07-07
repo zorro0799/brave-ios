@@ -69,8 +69,8 @@ class MonthlyTipsDetailViewController: UIViewController {
     let dateFormatter = DateFormatter().then {
       $0.dateFormat = Strings.autoContributeDateFormat
     }
-    let date = Date(timeIntervalSince1970: TimeInterval(state.ledger.autoContributeProps.reconcileStamp))
-    view.label.text = dateFormatter.string(from: date)
+//    let date = Date(timeIntervalSince1970: TimeInterval(state.ledger.autoContributeProps.reconcileStamp))
+//    view.label.text = dateFormatter.string(from: date)
     view.bounds = CGRect(origin: .zero, size: view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
     return view
   }

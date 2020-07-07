@@ -69,8 +69,8 @@ class AutoContributeDetailViewController: UIViewController {
     let dateFormatter = DateFormatter().then {
       $0.dateFormat = Strings.autoContributeDateFormat
     }
-    let reconcileDate = Date(timeIntervalSince1970: TimeInterval(state.ledger.autoContributeProps.reconcileStamp))
-    view.label.text = dateFormatter.string(from: reconcileDate)
+//    let reconcileDate = Date(timeIntervalSince1970: TimeInterval(state.ledger.autoContributeProps.reconcileStamp))
+//    view.label.text = dateFormatter.string(from: reconcileDate)
     view.bounds = CGRect(origin: .zero, size: view.systemLayoutSizeFitting(UIView.layoutFittingExpandedSize))
     return view
   }
@@ -174,26 +174,7 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       guard let row = SummaryRows(rawValue: indexPath.row) else { return }
       switch row {
       case .monthlyPayment:
-        // Monthly payment
-        guard let wallet = state.ledger.walletInfo else { break }
-        let monthlyPayment = state.ledger.contributionAmount
-        let choices = wallet.parametersChoices.map { BATValue($0.doubleValue) }
-        let selectedIndex = choices.map({ $0.doubleValue }).firstIndex(of: monthlyPayment) ?? 0
-        
-        let controller = BATValueOptionsSelectionViewController(
-          ledger: state.ledger,
-          options: choices,
-          isSelectionPrecise: false,
-          selectedOptionIndex: selectedIndex
-        ) { [weak self] selectedIndex in
-          guard let self = self else { return }
-          if selectedIndex < choices.count {
-            self.state.ledger.contributionAmount = choices[selectedIndex].doubleValue
-          }
-          self.navigationController?.popViewController(animated: true)
-        }
-        controller.title = Strings.autoContributeMonthlyPaymentTitle
-        navigationController?.pushViewController(controller, animated: true)
+        break
       default:
         break
       }
@@ -212,13 +193,13 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       switch row {
       case .minimumLength:
         let choices = BraveLedger.MinimumVisitDurationOptions.allCases.map { $0.rawValue }
-        let selectedIndex = choices.firstIndex(of: state.ledger.minimumVisitDuration) ?? 0
+        let selectedIndex = 0
         let controller = OptionsSelectionViewController(
           options: BraveLedger.MinimumVisitDurationOptions.allCases,
           selectedOptionIndex: selectedIndex) { [weak self] (selectedIndex) in
             guard let self = self else { return }
             if selectedIndex < choices.count {
-              self.state.ledger.minimumVisitDuration = choices[selectedIndex]
+              //self.state.ledger.minimumVisitDuration = choices[selectedIndex]
             }
             self.navigationController?.popViewController(animated: true)
         }
@@ -226,13 +207,12 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
         navigationController?.pushViewController(controller, animated: true)
       case .minimumVisits:
         let choices = BraveLedger.MinimumVisitsOptions.allCases.map { $0.rawValue }
-        let selectedIndex = choices.firstIndex(of: state.ledger.minimumNumberOfVisits) ?? 0
+        let selectedIndex = 0
         let controller = OptionsSelectionViewController(
           options: BraveLedger.MinimumVisitsOptions.allCases,
           selectedOptionIndex: selectedIndex) { [weak self] (selectedIndex) in
             guard let self = self else { return }
             if selectedIndex < choices.count {
-              self.state.ledger.minimumNumberOfVisits = choices[selectedIndex]
             }
             self.navigationController?.popViewController(animated: true)
         }
@@ -321,10 +301,10 @@ extension AutoContributeDetailViewController: UITableViewDataSource, UITableView
       switch row {
       case .minimumLength:
         cell.label.text = Strings.autoContributeMinimumLengthMessage
-        cell.accessoryLabel?.text = BraveLedger.MinimumVisitDurationOptions(rawValue: state.ledger.minimumVisitDuration)?.displayString
+        cell.accessoryLabel?.text = ""
       case .minimumVisits:
         cell.label.text = Strings.autoContributeMinimumVisitsMessage
-        cell.accessoryLabel?.text = BraveLedger.MinimumVisitsOptions(rawValue: state.ledger.minimumNumberOfVisits)?.displayString
+        cell.accessoryLabel?.text = ""
       case .allowUnverifiedContributions:
         cell.label.text = Strings.autoContributeToUnverifiedSites
         cell.accessoryView = contentView.allowUnverifiedContributionsSwitch

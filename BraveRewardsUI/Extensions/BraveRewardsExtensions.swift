@@ -17,10 +17,11 @@ extension BraveRewards {
   }
 }
 
-extension LogLevel {
+enum LogLevel {
   /// The common prefix to place before the log (uppercased)
   public var logPrefix: String {
-    switch self {
+    return "DEBUG"
+    /*switch self {
     case .logDebug: return "DEBUG"
     case .logError: return "ERROR"
     case .logInfo: return "INFO"
@@ -30,6 +31,6 @@ extension LogLevel {
     @unknown default:
       assertionFailure()
       return "DEBUG"
-    }
+    }*/
   }
 }
