@@ -208,7 +208,10 @@ extension PlaylistViewController: UITableViewDataSource {
         cell.detailLabel.text = URL(string: item.pageSrc)?.baseDomain ?? item.pageSrc //String(format: "%.2f mins", item.duration / 60.0)
         cell.contentView.backgroundColor = .clear
         cell.backgroundColor = .clear
-        cell.thumbnailView.setFavicon(forSite: .init(url: item.pageSrc, title: item.pageTitle))
+        
+        if let url = URL(string: item.pageSrc) {
+            cell.thumbnailView.loadFavicon(for: url)
+        }
         
         if indexPath.row == currentItem {
             cell.indicatorIcon.image = #imageLiteral(resourceName: "videoPlayingIndicator")

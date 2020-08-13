@@ -113,8 +113,10 @@ extension PlaylistMultipleSelectionController: UITableViewDataSource {
         cell.detailLabel.isHidden = true
         cell.contentView.backgroundColor = .clear
         cell.backgroundColor = .clear
+        if let url = URL(string: item.pageSrc) {
+            cell.thumbnailView.loadFavicon(for: url)
+        }
         
-        cell.thumbnailView.setFavicon(forSite: .init(url: item.pageSrc, title: item.pageTitle))
         cell.checkedIcon.isHidden = !checkedItems[indexPath.row]
         
         return cell
