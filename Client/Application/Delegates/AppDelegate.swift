@@ -13,6 +13,7 @@ import LocalAuthentication
 import CoreSpotlight
 import UserNotifications
 import BraveShared
+import BraveRewards
 import Data
 import StoreKit
 
@@ -83,6 +84,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIViewControllerRestorati
             //  literally never use Brave. This bypasses this situation, while not using a modifiable pref.
             KeychainWrapper.sharedAppContainerKeychain.setAuthenticationInfo(nil)
         }
+        
+        BraveCoreShared.shared()?.setUserAgentCallback({ () -> String? in
+            return UserAgent.shouldUseDesktopMode ? UserAgent.desktop : UserAgent.mobile
+        })
         
         return startApplication(application, withLaunchOptions: launchOptions)
     }

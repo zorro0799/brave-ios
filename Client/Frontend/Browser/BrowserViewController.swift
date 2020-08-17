@@ -533,6 +533,8 @@ class BrowserViewController: UIViewController {
         // Re-show toolbar which might have been hidden during scrolling (prior to app moving into the background)
         scrollController.showToolbars(animated: false)
     }
+    
+    private let worker = BraveSyncWorker()!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -660,6 +662,22 @@ class BrowserViewController: UIViewController {
         
         vpnProductInfo.load()
         BraveVPN.initialize()
+        
+        let words = worker.getSyncCodeWords()
+        let image = worker.getQRCodeImage(words, with: CGSize(width: 512.0, height: 512.0))
+        worker.start()
+        worker.setSyncCodeWords(words!)
+        print(worker.isFirstSetupComplete())
+        worker.finalizeSetup()
+        
+        print(words)
+        print("PERFECT")
+        print(image)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            print(self.worker.getDeviceListJSON())
+            print("DEVICE SET")
+        }
     }
     
     private func deprecateSyncV1() {
