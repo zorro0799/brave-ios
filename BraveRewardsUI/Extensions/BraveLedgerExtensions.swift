@@ -55,8 +55,8 @@ extension BraveLedger {
   }
   
   var upholdWalletStatus: WalletStatus {
-    guard let userWallet = externalWallets[.uphold] else { return .notConnected }
-    return userWallet.status
+    //guard let userWallet = externalWallets[.uphold] else { return .notConnected }
+    return .notConnected
   }
   
   /// The total balance or 0 if the balance hasn't been loaded yet
@@ -275,8 +275,8 @@ extension PublisherInfo {
   /// Temporary conveninece method for converting the raw int now in
   /// PublisherInfo, to the enum we've been using all along
   var rewardsCategory: RewardsType {
-    guard let category = RewardsType(rawValue: Int(self.category)) else {
-      fatalError("Could not get a rewards category from category = \(self.category)")
+    guard let category = RewardsType(rawValue: 2) else {
+      fatalError("Could not get a rewards category from category")
     }
     return category
   }

@@ -82,17 +82,18 @@ extension BrowserViewController {
                 switch result {
                 case .ledgerOk:
                     // Fetch the wallet
-                    self.rewards.ledger.fetchExternalWallet(forType: .uphold) { _ in
-                        if let redirectURL = redirectURL {
-                            // Requires verification
-                            let request = URLRequest(url: redirectURL)
-                            tab.loadRequest(request)
-                        } else {
-                            // Done
-                            self.tabManager.removeTab(tab)
-                            self.showBraveRewardsPanel()
-                        }
-                    }
+//                    self.rewards.ledger.fetchExternalWallet(forType: .uphold) { _ in
+//                        if let redirectURL = redirectURL {
+//                            // Requires verification
+//                            let request = URLRequest(url: redirectURL)
+//                            tab.loadRequest(request)
+//                        } else {
+//                            // Done
+//                            self.tabManager.removeTab(tab)
+//                            self.showBraveRewardsPanel()
+//                        }
+//                    }
+                    break
                 case .batNotAllowed:
                     // Uphold account doesn't support BAT...
                     let popup = AlertPopupView(

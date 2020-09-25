@@ -6,6 +6,15 @@ import UIKit
 import BraveRewards
 import BraveUI
 
+struct ExternalWallet {
+  let userName: String
+  let addUrl: String
+  let withdrawUrl: String
+  let accountUrl: String
+  let verifyUrl: String
+  let status: WalletStatus
+}
+
 final class UserWalletDetailsViewController: UIViewController {
  
   private let state: RewardsState

@@ -398,8 +398,8 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   }
   
   @objc private func tappedAddFunds() {
-    guard let wallet = state.ledger.externalWallets[.uphold], let url = URL(string: wallet.addUrl) else { return }
-    state.delegate?.loadNewTabWithURL(url)
+//    guard let wallet = state.ledger.externalWallets[.uphold], let url = URL(string: wallet.addUrl) else { return }
+//    state.delegate?.loadNewTabWithURL(url)
   }
   
   @objc private func tappedSettings() {
@@ -511,29 +511,29 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   }
   
   @objc private func tappedConnectWalletButton() {
-    let verifyOnboarding = VerifyUserWalletViewController {
-      self.dismiss(animated: true, completion: {
-        guard let wallet = self.state.ledger.externalWallets[.uphold],
-            let percentEncoded = wallet.verifyUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-            let upholdURL = URL(string: percentEncoded) else { return }
-          self.state.delegate?.loadNewTabWithURL(upholdURL)
-      })
-    }
-    self.present(verifyOnboarding, animated: true)
+//    let verifyOnboarding = VerifyUserWalletViewController {
+//      self.dismiss(animated: true, completion: {
+//        guard let wallet = self.state.ledger.externalWallets[.uphold],
+//            let percentEncoded = wallet.verifyUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+//            let upholdURL = URL(string: percentEncoded) else { return }
+//          self.state.delegate?.loadNewTabWithURL(upholdURL)
+//      })
+//    }
+//    self.present(verifyOnboarding, animated: true)
   }
   
   private func showUserWalletDetails() {
-    guard let wallet = state.ledger.externalWallets[.uphold] else { return }
-    let details = UserWalletDetailsViewController(state: state, wallet: wallet) {
-      self.state.ledger.disconnectWallet(ofType: .uphold) { result in
-        if result == .ledgerOk {
-          // Disconnected
-          self.updateExternalWallet()
-          self.navigationController?.popViewController(animated: true)
-        }
-      }
-    }
-    self.navigationController?.pushViewController(details, animated: true)
+//    guard let wallet = state.ledger.externalWallets[.uphold] else { return }
+//    let details = UserWalletDetailsViewController(state: state, wallet: wallet) {
+//      self.state.ledger.disconnectWallet(ofType: .uphold) { result in
+//        if result == .ledgerOk {
+//          // Disconnected
+//          self.updateExternalWallet()
+//          self.navigationController?.popViewController(animated: true)
+//        }
+//      }
+//    }
+//    self.navigationController?.pushViewController(details, animated: true)
   }
   
   @objc private func tappedVerifyWalletButton() {
@@ -541,12 +541,12 @@ class WalletViewController: UIViewController, RewardsSummaryProtocol {
   }
   
   @objc private func tappedDisconnectWalletButton() {
-    dismiss(animated: true, completion: {
-      guard let wallet = self.state.ledger.externalWallets[.uphold],
-        let percentEncoded = wallet.verifyUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-        let upholdURL = URL(string: percentEncoded) else { return }
-      self.state.delegate?.loadNewTabWithURL(upholdURL)
-    })
+//    dismiss(animated: true, completion: {
+//      guard let wallet = self.state.ledger.externalWallets[.uphold],
+//        let percentEncoded = wallet.verifyUrl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+//        let upholdURL = URL(string: percentEncoded) else { return }
+//      self.state.delegate?.loadNewTabWithURL(upholdURL)
+//    })
   }
   
   @objc private func tappedVerifiedUserWalletButton() {
