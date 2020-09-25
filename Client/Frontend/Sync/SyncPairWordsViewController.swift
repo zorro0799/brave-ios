@@ -4,12 +4,13 @@ import UIKit
 import Shared
 import BraveShared
 import Data
+import BraveRewards
 
 private let log = Logger.browserLogger
 
 class SyncPairWordsViewController: SyncViewController {
     
-    var syncHandler: (([Int]?) -> Void)?
+    var syncHandler: ((String) -> Void)?
     var scrollView: UIScrollView!
     var containerView: UIView!
     var codewordsView: SyncCodewordsView!
@@ -153,7 +154,7 @@ class SyncPairWordsViewController: SyncViewController {
         log.debug("check codes")
         
         func alert(title: String? = nil, message: String? = nil) {
-            if Sync.shared.isInSyncGroup {
+            if BraveSyncAPI.shared.isInSyncGroup {
                 // No alert
                 return
             }
@@ -184,7 +185,8 @@ class SyncPairWordsViewController: SyncViewController {
         let result = SyncCrypto().bytes(fromPassphrase: codes)
         switch result {
         case .success(let bytes):
-            syncHandler?(bytes)
+            print(codes)
+            //syncHandler?(bytes)
         case .failure(let error):
             alert(message: "\(error)")
             disableNavigationPrevention()

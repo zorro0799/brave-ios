@@ -17,6 +17,7 @@ function usage() {
   echo "Usage: ./build_in_core.sh [--clean] [--debug] {\$home/brave/brave-browser}"
   echo " --clean:         Cleans build directories before building"
   echo " --debug:         Builds a debug instead of release framework. (Should not be pushed with the repo)"
+  echo " --skip-update:   Must be used otherwise local changes will be removed!"
   echo " --nodevice:     Skips building the device (arm64) slices. (Should not be pushed with the repo)"
   exit 1
 }
